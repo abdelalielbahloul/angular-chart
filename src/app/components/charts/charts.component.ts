@@ -1,15 +1,17 @@
 import { Chart } from 'chart.js';
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges } from '@angular/core';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-charts',
   templateUrl: './charts.component.html',
   styleUrls: ['./charts.component.css']
 })
-export class ChartsComponent implements OnInit {
+export class ChartsComponent implements OnInit, OnChanges {
 
   @Input('my-id') myId = '';
   @Input('my-type') myType = 'bar';
+  @Input('data') data = [];
 
 
   constructor() { }
@@ -17,17 +19,25 @@ export class ChartsComponent implements OnInit {
   ngOnInit(): void {
   }
   ngAfterViewInit() : void {
-    this.barChart()
+    this.myChart()
   }
 
-  barChart() {
+  ngOnChanges() : void {
+    this.myChart()
+  }
+
+  myChart() {
+
+    let labels = _.map(this.data, 'label');
+    let quantities = _.map(this.data, 'quantity');
+
     var myChart = new Chart(this.myId, {
       type: this.myType,
       data: {
-          labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+          labels: labels,
           datasets: [{
               label: '# of Votes',
-              data: [12, 19, 3, 5, 2, 3],
+              data: quantities,
               backgroundColor: [
                   'rgba(255, 99, 132, 0.2)',
                   'rgba(54, 162, 235, 0.2)',

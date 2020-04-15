@@ -7,11 +7,38 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashboardComponent implements OnInit {
 
+  product = {
+    label: '',
+    quantity: 0
+  }
+
+  products = [
+    {
+      label: 'Sumsung',
+      quantity: 200
+    },
+    {
+      label: 'Huawi',
+      quantity: 150
+    }
+  ]
+
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  addProduct() {
+    this.products = [this.product, ...this.products]
+    this.reset()
+  }
+
+  reset() {
+    this.product = {
+      label: '',
+      quantity: 0
+    }
+  }
  
 
 }
